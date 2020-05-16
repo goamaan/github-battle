@@ -169,7 +169,6 @@ export default class Battle extends React.Component {
     return (
       <React.Fragment>
         <Instructions />
-
         <div className="players-container">
           <h1 className="center-text header-lg">Players</h1>
           <div className="row space-around">
