@@ -38,10 +38,10 @@ function getRepos(username) {
 
 // function getCommits(username) {
 //   const totalCommits = [];
-//   getRepos(username.login).then((repos) => {
+//   getRepos(username).then((repos) => {
 //     repos.forEach((repo) => {
 //       return fetch(
-//         `https://api.github.com/repos/${username.login}/${repo.name}/commits${params}`
+//         `https://api.github.com/repos/${username}/${repo.name}/commits${params}`
 //       )
 //         .then((res) => res.json())
 //         .then((commits) => {
@@ -52,20 +52,18 @@ function getRepos(username) {
 //         });
 //     });
 //   });
-//   return totalCommits;
-// }
-
-// function getCommitsCount(repoCommits) {
 //   let counter = 0;
-//   console.log(repoCommits);
-//   repoCommits.forEach((repo) => {
-//     repo.forEach((commit) => {
-//       console.log(counter);
-//       counter++;
-//     });
+//   totalCommits.forEach((repo) => {
+//     if (repo) {
+//       console.log(repo);
+//     } else {
+//       throw new Error(getErrorMsg(commits.message, username));
+//     }
 //   });
 //   return counter;
 // }
+
+function getCommitsCount(repoCommits) {}
 
 function getStarCount(repos) {
   return repos.reduce(
@@ -74,15 +72,15 @@ function getStarCount(repos) {
   );
 }
 
-function calculateScore(followers, repos, profile) {
-  return followers * 3 + getStarCount(repos);
+function calculateScore(followers, repos) {
+  return followers * 3 + getStarCount(repos) + repos.length;
 }
 
 function getUserData(player) {
   return Promise.all([getProfile(player), getRepos(player)]).then(
     ([profile, repos]) => ({
       profile,
-      score: calculateScore(profile.followers, repos, profile),
+      score: calculateScore(profile.followers, repos),
     })
   );
 }
